@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "69421497128",
+    "project_id": "galtest-a6b8d",
+    "storage_bucket": "galtest-a6b8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69421497128:android:58c54ab5c0d081f521ee1d",
+        "android_client_info": {
+          "package_name": "com.des.galtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69421497128-vpdf3832ficbhenvcn647ku60mqetu0a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAsl71mkaGl3RWCANnPWj_MB6r_550ISY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69421497128-vpdf3832ficbhenvcn647ku60mqetu0a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
