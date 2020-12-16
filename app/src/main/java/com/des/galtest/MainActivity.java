@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleFacebookToken(AccessToken Token) {
         Log.d(TAG,"handleFacebookToken "+Token);
-        AuthCredential cred= new FacebookAuthCredential().getProvider();
         AuthCredential credential= new FacebookAuthProvider().getCredential(Token.getToken());
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -163,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, " Exitoso", Toast.LENGTH_SHORT).show();
                     FirebaseUser currentUser=mAuth.getCurrentUser();
                     updateUI(currentUser);
-                    ///startActivity(new Intent(MainActivity.this,Principal.class));
+                    startActivity(new Intent(MainActivity.this,Principal.class));
 
                 }else{
                     Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
