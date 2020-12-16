@@ -1,14 +1,15 @@
-package com.des.galtest;
+package com.des.galtest.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.EditText;
 
+import com.des.galtest.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Principal extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
     EditText  mensaje;
     private FirebaseAuth mAuth;
     @Override

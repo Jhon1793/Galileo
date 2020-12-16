@@ -1,4 +1,4 @@
-package com.des.galtest;
+package com.des.galtest.auth;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.des.galtest.ui.HomeActivity;
+import com.des.galtest.R;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -28,7 +30,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,22 +41,21 @@ import com.facebook.appevents.AppEventsLogger;
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText Email,Password;
-    private SignInButton btngoogle;
     private GoogleSignInClient mGoogleSingInClient;
     private final String TAG="MainActivity";
     private final int RC_SIGN_IN=1;
-    private CallbackManager callbackManager;
-    private LoginButton loginButton;
-    private AccessTokenTracker accessTokenTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mAuth = FirebaseAuth.getInstance();
-        Email= findViewById(R.id.emaillog);
+        Email = findViewById(R.id.emaillog);
         Password=findViewById(R.id.passwordlog);
-        btngoogle=findViewById(R.id.btngoogle);
+
+        SignInButton btngoogle = findViewById(R.id.btngoogle);
+
         GoogleSignInOptions  gso= new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -68,10 +68,14 @@ public class MainActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-        loginButton= findViewById(R.id.login_button);
-        callbackManager = CallbackManager.Factory.create();
+
+        LoginButton loginButton = findViewById(R.id.login_button);
+
+        CallbackManager callbackManager = CallbackManager.Factory.create();
+
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -90,10 +94,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG,"error"+error);
             }
         });
-        accessTokenTracker= new AccessTokenTracker() {
+
+        AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                if(currentAccessToken==null){
+                if (currentAccessToken == null) {
                     mAuth.signOut();
                 }
             }
@@ -136,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode ==RC_SIGN_IN){
+        if(requestCode == RC_SIGN_IN){
             Task<GoogleSignInAccount> task= GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
@@ -162,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, " Exitoso", Toast.LENGTH_SHORT).show();
                     FirebaseUser currentUser=mAuth.getCurrentUser();
                     updateUI(currentUser);
-                    startActivity(new Intent(MainActivity.this,Principal.class));
+                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
 
                 }else{
                     Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
@@ -197,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            startActivity(new Intent(MainActivity.this,Principal.class));
+                            startActivity(new Intent(MainActivity.this, HomeActivity.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("ERROR", "createUserWithEmail:failure", task.getException());
@@ -220,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void login(View view){
-        startActivity(new Intent(MainActivity.this,Login.class));
+        startActivity(new Intent(MainActivity.this, Login.class));
     }
 }
 

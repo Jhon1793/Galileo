@@ -1,83 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:padding="12dp"
+    tools:context=".auth.MainActivity">
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="214dp"
-        tools:layout_editor_absoluteY="210dp">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/titulo"
+        android:text="Registro de usuarios"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textSize="26sp"
+        android:textAlignment="center"/>
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="30dp" />
+    <EditText
+        android:id="@+id/emaillog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titulo"
+        android:layout_marginTop="@dimen/margin_top"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
 
-        <EditText
-            android:id="@+id/emaillog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="30dp" />
+    <EditText
+        android:id="@+id/passwordlog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/emaillog"
+        android:ems="10"
+        android:hint="Contraseña"
+        android:inputType="textPassword" />
 
-        <EditText
-            android:id="@+id/passwordlog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Contraseña"
-            android:inputType="textPassword" />
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="30dp" />
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/passwordlog"
+        android:layout_marginTop="@dimen/margin_top"
+        android:onClick="buttonPress"
+        android:text="Registrar" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="buttonPress"
-            android:text="Registrar" />
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btngoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button"
+        android:layout_toEndOf="@id/btngoogle"
+        android:layout_gravity="center_horizontal" />
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="login"
-            android:text="Login" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/btngoogle"
+        android:layout_marginVertical="12dp"
+        android:background="#222222"
+        android:id="@+id/espacio1"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+    <EditText
+        android:id="@+id/edtNumero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/espacio1"
+        android:hint="@string/numero_de_telefono"
+        android:inputType="number" />
 
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/btngoogle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edtNumero"
+        android:text="Registrar #"
+        android:id="@+id/btmnRegistroNumero"/>
 
-        </LinearLayout>
-    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/message"
+        android:layout_above="@id/button3"
+        android:text="Ya estas regsitrado?, Ingresa con tu cuenta existente..."/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="login"
+        android:text="@string/ingresar"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.des.galtest.auth.MainActivity;
+
 public class SplashScream extends AppCompatActivity {
 
     @Override
@@ -15,7 +17,7 @@ public class SplashScream extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScream.this,MainActivity.class);
+                Intent intent = new Intent(SplashScream.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
