@@ -183,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
             String  name=account.getDisplayName();
             String email=account.getEmail();
             String personId=account.getId();
-
             Toast.makeText(MainActivity.this, "Buenvenido Usuario"+name + email, Toast.LENGTH_SHORT).show();
         }
 
