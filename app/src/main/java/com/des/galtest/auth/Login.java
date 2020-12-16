@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.des.galtest.R;
+import com.des.galtest.ui.HomeActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,7 +27,6 @@ public class Login extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         init();
     }
 
@@ -46,6 +46,7 @@ public class Login extends AppCompatActivity  {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(Login.this, " LOGEO EXITOSO",Toast.LENGTH_SHORT).show();
                             updateUI(user);
+                            startActivity(new Intent(Login.this, HomeActivity.class));
                         } else {
                             Log.w("Error", "signInWithEmail:failure", task.getException());
                             Toast.makeText(Login.this, " "+task.getException(),Toast.LENGTH_SHORT).show();

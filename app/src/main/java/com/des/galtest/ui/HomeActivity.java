@@ -18,4 +18,5 @@ public class HomeActivity extends AppCompatActivity {
                 .setOnClickListener( v -> startActivity(new Intent(this, PublicacionesActivity.class)));
     }
 
+
 }
