@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleFacebookToken(AccessToken Token) {
         Log.d(TAG,"handleFacebookToken "+Token);
-        AuthCredential credential= new FacebookAuthProvider().getCredential(Token.getToken());
+        AuthCredential credential= FacebookAuthProvider.getCredential(Token.getToken());
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
