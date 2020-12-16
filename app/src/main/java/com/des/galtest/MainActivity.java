@@ -11,6 +11,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -21,6 +28,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthCredential;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -33,9 +42,11 @@ public class MainActivity extends AppCompatActivity {
     private EditText Email,Password;
     private SignInButton btngoogle;
     private GoogleSignInClient mGoogleSingInClient;
-    private String TAG="MainActivity";
-    private int RC_SIGN_IN=1;
-
+    private final String TAG="MainActivity";
+    private final int RC_SIGN_IN=1;
+    private CallbackManager callbackManager;
+    private LoginButton loginButton;
+    private AccessTokenTracker accessTokenTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +61,68 @@ public class MainActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
         mGoogleSingInClient= GoogleSignIn.getClient(this, gso);
+
         btngoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();
             }
         });
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+        loginButton= findViewById(R.id.login_button);
+        callbackManager = CallbackManager.Factory.create();
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d(TAG,"exitoso"+loginResult);
+                handleFacebookToken(loginResult.getAccessToken());
+                
+            }
 
+            @Override
+            public void onCancel() {
+                Log.d(TAG,"Cancelado");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d(TAG,"error"+error);
+            }
+        });
+        accessTokenTracker= new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+                if(currentAccessToken==null){
+                    mAuth.signOut();
+                }
+            }
+        };
     }
+
+
+    private void handleFacebookToken(AccessToken Token) {
+        Log.d(TAG,"handleFacebookToken "+Token);
+        AuthCredential cred= new FacebookAuthCredential().getProvider();
+        AuthCredential credential= new FacebookAuthProvider().getCredential(Token.getToken());
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Log.d(TAG, "Ingreso con Facebook:Exitoso");
+                    Toast.makeText(MainActivity.this, " Exitoso", Toast.LENGTH_SHORT).show();
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    updateUI(user);
+                }else{
+                    Log.d(TAG, "Ingreso con Facebook:Fallido"+task.getException());
+                    Toast.makeText(MainActivity.this, " Autentificacion Fallida", Toast.LENGTH_SHORT).show();
+                    updateUI(null);
+
+                }
+            }
+        });
+    }
+
     @Override
      protected void onStart(){
         super.onStart();
