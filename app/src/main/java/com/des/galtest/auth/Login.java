@@ -12,11 +12,14 @@ import android.widget.Toast;
 
 import com.des.galtest.R;
 import com.des.galtest.ui.HomeActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class Login extends AppCompatActivity  {
 
@@ -46,7 +49,7 @@ public class Login extends AppCompatActivity  {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(Login.this, " LOGEO EXITOSO",Toast.LENGTH_SHORT).show();
                             updateUI(user);
-                            startActivity(new Intent(Login.this, HomeActivity.class));
+                            startActivity(new Intent(Login.this, Logout.class));
                         } else {
                             Log.w("Error", "signInWithEmail:failure", task.getException());
                             Toast.makeText(Login.this, " "+task.getException(),Toast.LENGTH_SHORT).show();
@@ -54,6 +57,24 @@ public class Login extends AppCompatActivity  {
                         }
                     }
                 });
+    }
+    private void signWithGoogle(GoogleSignInAccount acc) {
+        AuthCredential authCredential= GoogleAuthProvider.getCredential(acc.getIdToken(),null);
+        mAuth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(Login.this, " Exitoso", Toast.LENGTH_SHORT).show();
+                    FirebaseUser currentUser=mAuth.getCurrentUser();
+                    updateUI(currentUser);
+                    startActivity(new Intent(Login.this, Logout.class));
+
+                }else{
+                    Toast.makeText(Login.this, "Error", Toast.LENGTH_SHORT).show();
+                    updateUI(null);
+                }
+            }
+        });
     }
 
     private void updateUI(FirebaseUser currentUser) {

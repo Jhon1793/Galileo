@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, " Exitoso", Toast.LENGTH_SHORT).show();
                     FirebaseUser currentUser=mAuth.getCurrentUser();
                     updateUI(currentUser);
-                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                    startActivity(new Intent(MainActivity.this, Logout.class));
 
                 }else{
                     Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser=mAuth.getCurrentUser();
         if(currentUser !=null){
             updateUI(currentUser);
-            startActivity(new Intent(MainActivity.this, Login.class));
+            startActivity(new Intent(MainActivity.this, Logout.class));
         }else{
             updateUI(null);
         }
