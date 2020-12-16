@@ -178,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
             String  name=account.getDisplayName();
             String email=account.getEmail();
             String personId=account.getId();
-
             Toast.makeText(MainActivity.this, "Buenvenido Usuario"+name + email, Toast.LENGTH_SHORT).show();
         }
 
@@ -197,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            startActivity(new Intent(MainActivity.this,Principal.class));
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("ERROR", "createUserWithEmail:failure", task.getException());
