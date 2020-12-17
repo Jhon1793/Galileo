@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -37,31 +39,46 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.auth.PhoneAuthProvider;
+import com.hbb20.CountryCodePicker;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    private EditText Email,Password;
+    private EditText Email,Password,telefono;
     private GoogleSignInClient mGoogleSingInClient;
     private final String TAG="MainActivity";
     private final int RC_SIGN_IN=1;
+    private CountryCodePicker ccp;
+    private Button btmnRegistro;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mAuth = FirebaseAuth.getInstance();
         Email = findViewById(R.id.emaillog);
+        telefono=findViewById(R.id.edtNumero);
         Password=findViewById(R.id.passwordlog);
-
+        telefono=findViewById(R.id.edtNumero);
+        ccp=(CountryCodePicker)findViewById(R.id.ccp1);
+        ccp.registerCarrierNumberEditText(telefono);
+        btmnRegistro=(Button)findViewById(R.id.btmnRegistroNumero);
+        btmnRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(MainActivity.this,Login.class);
+                intent.putExtra("telefono",ccp.getFullNumberWithPlus().replace(" ",""));
+                startActivity(intent);
+            }
+        });
         SignInButton btngoogle = findViewById(R.id.btngoogle);
-
         GoogleSignInOptions  gso= new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleSingInClient= GoogleSignIn.getClient(this, gso);
-
         btngoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,18 +87,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-
+       /// AppEventsLogger.activateApp(this);
         LoginButton loginButton = findViewById(R.id.login_button);
-
         CallbackManager callbackManager = CallbackManager.Factory.create();
-
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(TAG,"exitoso"+loginResult);
                 handleFacebookToken(loginResult.getAccessToken());
-                
             }
 
             @Override
@@ -103,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-    }
 
+    }
 
     private void handleFacebookToken(AccessToken Token) {
         Log.d(TAG,"handleFacebookToken "+Token);

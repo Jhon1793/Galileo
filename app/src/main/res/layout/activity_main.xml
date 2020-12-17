@@ -69,20 +69,32 @@
         android:background="#222222"
         android:id="@+id/espacio1"/>
 
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/ccp1"
+        android:layout_width="115dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/espacio1"
+
+        android:layout_marginTop="21dp" />
+
     <EditText
         android:id="@+id/edtNumero"
-        android:layout_width="match_parent"
+        android:layout_width="224dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/espacio1"
+        android:layout_alignStart="@+id/ccp1"
+        android:layout_marginStart="138dp"
+        android:layout_marginTop="30dp"
         android:hint="@string/numero_de_telefono"
         android:inputType="number" />
 
     <Button
+        android:id="@+id/btmnRegistroNumero"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/edtNumero"
-        android:text="Registrar #"
-        android:id="@+id/btmnRegistroNumero"/>
+        android:layout_marginTop="33dp"
+        android:text="Registrar #" />
 
     <TextView
         android:layout_width="wrap_content"

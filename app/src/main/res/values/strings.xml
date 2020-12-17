@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Galtest</string>
     <string name="facebook_app_id">2848113482180944</string>
-    <string name="fb_login_protocol_scheme">fb2848113482180944</string>
     <string name="numero_de_telefono">Numero de telefono</string>
     <string name="ingresar">Ingresar</string>
+
+    <string name="title_activity_menu_l_">MenuL_Activity</string>
+    <string name="title_activity_menu_l">MenuL_Activity</string>
 </resources>

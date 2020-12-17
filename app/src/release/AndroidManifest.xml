@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <activity
+            android:name="com.des.galtest.MenuLActivity"
+            android:label="@string/title_activity_menu_l"
+            android:theme="@style/Theme.Galtest.NoActionBar"></activity>
+    </application>
+</manifest>
