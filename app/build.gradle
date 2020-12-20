@@ -4,16 +4,16 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 29
     buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.des.galtest"
-        minSdkVersion 23
-        targetSdkVersion 30
+        minSdkVersion 21
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,18 +29,74 @@ android {
     }
 }
 
+
+def material_version = "1.2.1"
+def lifecycle_version = "2.2.0"
+def rx_android = "2.1.1"
+def rx_java = "2.2.16"
+def dagger_version = "2.28"
+def rxBinding_version = "3.1.0"
+def circularImage_version = "3.0.1"
+def glide_version = "4.10.0"
+def rx_permission = "0.7.0"
+def compressor = "2.1.0"
+def blur_version = "4.1.0"
+def multidex_version = "2.0.1"
+def firebase_auth = "20.0.1"
+def firebase_firestore = "22.0.1"
+def firebase_storage = "19.2.1"
+def firebase_ui = "6.2.0"
+def firebase_bom = "26.1.0"
+def butterknife = "10.0.0"
+
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.google.firebase:firebase-auth:20.0.1'
-    implementation platform('com.google.firebase:firebase-bom:26.1.0')
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.facebook.android:facebook-android-sdk:4.42.0'
     implementation 'com.facebook.android:facebook-login:4.42.0'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation "com.google.android.material:material:$material_version"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
+    implementation "io.reactivex.rxjava2:rxjava:$rx_java"
+    implementation "io.reactivex.rxjava2:rxandroid:$rx_android"
+
+    api "com.google.dagger:dagger-android:$dagger_version"
+    api "com.google.dagger:dagger-android-support:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    api "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+
+    implementation "com.jakewharton.rxbinding3:rxbinding:$rxBinding_version"
+    implementation "com.jakewharton.rxbinding3:rxbinding-material:$rxBinding_version"
+
+    implementation "de.hdodenhof:circleimageview:$circularImage_version"
+
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+
+    implementation "com.vanniktech:rxpermission:$rx_permission"
+
+    implementation "id.zelory:compressor:$compressor"
+
+    implementation "jp.wasabeef:glide-transformations:$blur_version"
+
+    implementation "androidx.multidex:multidex:$multidex_version"
+
+    implementation "com.jakewharton:butterknife:$butterknife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife"
+
+    implementation "com.google.firebase:firebase-auth:$firebase_auth"
+    implementation "com.google.firebase:firebase-firestore:$firebase_firestore"
+    implementation "com.firebaseui:firebase-ui-firestore:$firebase_ui"
+    implementation "com.google.firebase:firebase-storage:$firebase_storage"
+    implementation platform("com.google.firebase:firebase-bom:$firebase_bom")
 
 }

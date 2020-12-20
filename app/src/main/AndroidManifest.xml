@@ -3,30 +3,28 @@
     package="com.des.galtest">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".base.BaseActivity"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Galtest">
+        android:theme="@style/AppTheme">
         <activity android:name=".auth.Logout"></activity>
-        <activity android:name=".ui.HomeActivity" />
-        <activity android:name=".auth.Login">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".SplashScream">
+        <activity android:name=".ui.main.HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".auth.Login"/>
+        <activity android:name=".ui.SplashScream"/>
         <activity android:name=".auth.MainActivity" />
-
+        <activity android:name=".ui.PublicacionesActivity" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

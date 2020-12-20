@@ -1,4 +1,4 @@
-package com.des.galtest;
+package com.des.galtest.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.des.galtest.R;
 import com.des.galtest.auth.MainActivity;
 
 public class SplashScream extends AppCompatActivity {

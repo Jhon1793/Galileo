@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.des.galtest.ui.HomeActivity;
+import com.des.galtest.ui.main.HomeActivity;
 import com.des.galtest.R;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
