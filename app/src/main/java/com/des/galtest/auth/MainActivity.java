@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -37,31 +39,48 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.auth.PhoneAuthProvider;
+import com.hbb20.CountryCodePicker;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    private EditText Email,Password;
+    private EditText Email,Password,telefono;
     private GoogleSignInClient mGoogleSingInClient;
     private final String TAG="MainActivity";
     private final int RC_SIGN_IN=1;
-
+    private CountryCodePicker ccp;
+    private Button btmnRegistro;
+    CallbackManager callbackManager;
+    private LoginButton loginButton;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private AccessTokenTracker accessTokenTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mAuth = FirebaseAuth.getInstance();
+        FacebookSdk.sdkInitialize(getApplicationContext());
         Email = findViewById(R.id.emaillog);
-        Password=findViewById(R.id.passwordlog);
-
+        telefono = findViewById(R.id.edtNumero);
+        Password = findViewById(R.id.passwordlog);
+        telefono = findViewById(R.id.edtNumero);
+        ccp = (CountryCodePicker) findViewById(R.id.ccp1);
+        ccp.registerCarrierNumberEditText(telefono);
+        btmnRegistro = (Button) findViewById(R.id.btmnRegistroNumero);
+        btmnRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                intent.putExtra("telefono", ccp.getFullNumberWithPlus().replace(" ", ""));
+                startActivity(intent);
+            }
+        });
         SignInButton btngoogle = findViewById(R.id.btngoogle);
-
-        GoogleSignInOptions  gso= new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        mGoogleSingInClient= GoogleSignIn.getClient(this, gso);
-
+        mGoogleSingInClient = GoogleSignIn.getClient(this, gso);
         btngoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,31 +88,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
+        /// AppEventsLogger.activateApp(this);
 
-        LoginButton loginButton = findViewById(R.id.login_button);
-
-        CallbackManager callbackManager = CallbackManager.Factory.create();
-
+        loginButton = findViewById(R.id.login_button);
+        loginButton.setReadPermissions("email","public_profile");
+        callbackManager = CallbackManager.Factory.create();
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG,"exitoso"+loginResult);
+                Log.d(TAG, "here we go3");
+                Log.d("Facebook Autentication", "exitoso" + loginResult);
                 handleFacebookToken(loginResult.getAccessToken());
-                
             }
 
             @Override
             public void onCancel() {
-                Log.d(TAG,"Cancelado");
+                Log.d("Facebook Autentication", "Cancelado");
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.d(TAG,"error"+error);
+                Log.d(TAG, "error" + error);
             }
         });
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user= firebaseAuth.getCurrentUser();
+                if(user!=null){
+                    updateUI(user);
+                }else{
+                    updateUI(null);
+                }
+            }
+        };
 
         AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
             @Override
@@ -103,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-    }
 
+    }
 
     private void handleFacebookToken(AccessToken Token) {
         Log.d(TAG,"handleFacebookToken "+Token);
@@ -117,6 +145,9 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, " Exitoso", Toast.LENGTH_SHORT).show();
                     FirebaseUser user = mAuth.getCurrentUser();
                     updateUI(user);
+                    Log.d(TAG,"LLegamos"+user);
+                    startActivity(new Intent(MainActivity.this, Logout.class));
+
                 }else{
                     Log.d(TAG, "Ingreso con Facebook:Fallido"+task.getException());
                     Toast.makeText(MainActivity.this, " Autentificacion Fallida", Toast.LENGTH_SHORT).show();
@@ -135,11 +166,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        callbackManager.onActivityResult(requestCode,resultCode,data);
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == RC_SIGN_IN){
-            Task<GoogleSignInAccount> task= GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            if(GoogleSignIn.getSignedInAccountFromIntent(data)!=null) {
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                handleSignInResult(task);
+            }else {
+                callbackManager.onActivityResult(requestCode, resultCode, data);
+            }
         }
+
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completetask) {
@@ -163,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
                     FirebaseUser currentUser=mAuth.getCurrentUser();
                     updateUI(currentUser);
                     startActivity(new Intent(MainActivity.this, Logout.class));
-
                 }else{
                     Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     updateUI(null);
@@ -178,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
             String  name=account.getDisplayName();
             String email=account.getEmail();
             String personId=account.getId();
-            Toast.makeText(MainActivity.this, "Buenvenido Usuario"+name + email, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Bienvenido Usuario"+name + email, Toast.LENGTH_SHORT).show();
         }
 
 
@@ -231,8 +267,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, Logout.class));
         }else{
             updateUI(null);
+            mAuth.addAuthStateListener(authStateListener);
         }
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(authStateListener !=null){
+            mAuth.removeAuthStateListener(authStateListener);
+        }
     }
 }
 

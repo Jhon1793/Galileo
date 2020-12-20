@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.des.galtest.R;
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Logout extends AppCompatActivity {
@@ -33,7 +34,11 @@ public class Logout extends AppCompatActivity {
     }
 
     private void CerrarSesion() {
+        LoginManager.getInstance().logOut();
+        FirebaseAuth.getInstance().signOut();
         mAuth.signOut();
+
         startActivity(new Intent(Logout.this, Login.class));
+
     }
 }

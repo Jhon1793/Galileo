@@ -4,4 +4,7 @@
     <string name="fb_login_protocol_scheme">fb2848113482180944</string>
     <string name="numero_de_telefono">Numero de Telefono</string>
     <string name="ingresar">Ingresar</string>
+
+    <string name="title_activity_menu_l_">MenuL_Activity</string>
+    <string name="title_activity_menu_l">MenuL_Activity</string>
 </resources>

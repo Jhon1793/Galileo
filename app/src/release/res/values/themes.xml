@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="Theme.Galtest.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Galtest.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Galtest.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
