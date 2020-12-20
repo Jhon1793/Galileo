@@ -1,8 +1,4 @@
-package com.des.galtest.auth;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+package com.des.galtest.ui.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.des.galtest.R;
-import com.des.galtest.ui.HomeActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -23,7 +22,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,12 +29,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private EditText Emaillog, Passwordlog, Numero;
@@ -90,10 +87,10 @@ public class Login extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completetask) {
         try {
             GoogleSignInAccount acc = completetask.getResult(ApiException.class);
-            Toast.makeText(Login.this, "Logeo Exitoso", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Logeo Exitoso", Toast.LENGTH_SHORT).show();
             FirebaseGoogleAuth(acc);
         } catch (ApiException e) {
-            Toast.makeText(Login.this, "Logeo Erroneo", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Logeo Erroneo", Toast.LENGTH_SHORT).show();
             FirebaseGoogleAuth(null);
         }
     }
@@ -104,13 +101,13 @@ public class Login extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(Login.this, " Exitoso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, " Exitoso", Toast.LENGTH_SHORT).show();
                     FirebaseUser currentUser = mAuth.getCurrentUser();
                     updateUI(currentUser);
-                    startActivity(new Intent(Login.this, Logout.class));
+                    startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
 
                 } else {
-                    Toast.makeText(Login.this, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     updateUI(null);
                 }
             }
@@ -119,9 +116,9 @@ public class Login extends AppCompatActivity {
 
     private void codeVerification(String telephone) {
         if (telephone.isEmpty()) {
-            Toast.makeText(Login.this, "Codigo en Blanco ", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Codigo en Blanco ", Toast.LENGTH_LONG).show();
         } else if (telephone.length() != 6) {
-            Toast.makeText(Login.this, "Codigo invalido ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Codigo invalido ", Toast.LENGTH_SHORT).show();
         } else {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, telephone);
             signInWithPhoneAuthCredential(credential);
@@ -166,7 +163,7 @@ public class Login extends AppCompatActivity {
 
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
-                        Toast.makeText(Login.this, " ERROR: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, " ERROR: "+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -219,14 +216,14 @@ public class Login extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
-                            Toast.makeText(Login.this, " LOGEO EXITOSO", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, " LOGEO EXITOSO", Toast.LENGTH_SHORT).show();
                             updateUI(user);
-                            startActivity(new Intent(Login.this, Logout.class));
+                            startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                Toast.makeText(Login.this, " " + task.getException(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, " " + task.getException(), Toast.LENGTH_SHORT).show();
                                 updateUI(null);
 
                             }
@@ -243,12 +240,12 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d("Exito", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(Login.this, " LOGEO EXITOSO", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, " LOGEO EXITOSO", Toast.LENGTH_SHORT).show();
                             updateUI(user);
-                            startActivity(new Intent(Login.this, Logout.class));
+                            startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
                         } else {
                             Log.w("Error", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(Login.this, " " + task.getException(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, " " + task.getException(), Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                     }
@@ -262,7 +259,7 @@ public class Login extends AppCompatActivity {
             String name = currentUser.getDisplayName();
             String email = currentUser.getEmail();
             String phone = currentUser.getPhoneNumber();
-            Toast.makeText(Login.this, "Buenvenido Usuario" + name + email + phone, Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Buenvenido Usuario" + name + email + phone, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -281,7 +278,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void registrar(View view) {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, RegisterActivity.class));
     }
 
     @Override

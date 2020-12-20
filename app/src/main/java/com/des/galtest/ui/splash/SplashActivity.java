@@ -1,4 +1,4 @@
-package com.des.galtest.ui;
+package com.des.galtest.ui.splash;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.des.galtest.R;
-import com.des.galtest.auth.MainActivity;
+import com.des.galtest.ui.auth.RegisterActivity;
 
-public class SplashScream extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,7 @@ public class SplashScream extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScream.this, MainActivity.class);
+                Intent intent = new Intent(SplashActivity.this, RegisterActivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -1,4 +1,4 @@
-package com.des.galtest.ui;
+package com.des.galtest.ui.posts;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +12,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PublicacionesActivity extends AppCompatActivity {
+public class PostsActivity extends AppCompatActivity {
 
     private static final String TAG = "jojo";
 

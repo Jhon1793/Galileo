@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.PublicacionesActivity">
+    tools:context=".ui.posts.PostsActivity">
 
     <Button
         android:layout_width="match_parent"

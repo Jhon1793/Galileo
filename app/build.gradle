@@ -104,4 +104,5 @@ dependencies {
     implementation platform("com.google.firebase:firebase-bom:$firebase_bom")
 
     implementation 'com.hbb20:ccp:2.4.2'
+
 }

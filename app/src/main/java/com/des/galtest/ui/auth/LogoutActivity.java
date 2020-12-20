@@ -1,4 +1,4 @@
-package com.des.galtest.auth;
+package com.des.galtest.ui.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,7 +11,7 @@ import com.des.galtest.R;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Logout extends AppCompatActivity {
+public class LogoutActivity extends AppCompatActivity {
     private Button logout;
     private FirebaseAuth mAuth;
     @Override
@@ -38,7 +38,7 @@ public class Logout extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         mAuth.signOut();
 
-        startActivity(new Intent(Logout.this, Login.class));
+        startActivity(new Intent(LogoutActivity.this, LoginActivity.class));
 
     }
 }

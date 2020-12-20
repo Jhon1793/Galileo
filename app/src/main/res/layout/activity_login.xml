@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="12dp"
-    tools:context=".auth.Login">
+    tools:context=".ui.auth.Login">
 
         <TextView
             android:layout_width="match_parent"
