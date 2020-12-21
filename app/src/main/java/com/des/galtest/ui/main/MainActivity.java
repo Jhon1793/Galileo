@@ -8,7 +8,7 @@ import com.des.galtest.ui.posts.PostsActivity;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
-public class HomeActivity extends DaggerAppCompatActivity {
+public class MainActivity extends DaggerAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

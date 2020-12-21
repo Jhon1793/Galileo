@@ -1,4 +1,4 @@
-package com.des.galtest.ui.auth;
+package com.des.galtest.ui.auth.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 

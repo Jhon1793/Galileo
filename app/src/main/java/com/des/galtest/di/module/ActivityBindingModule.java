@@ -1,7 +1,9 @@
 package com.des.galtest.di.module;
 
 
-import com.des.galtest.ui.main.HomeActivity;
+import com.des.galtest.di.register.RegisterViewModelModule;
+import com.des.galtest.ui.auth.register.RegisterActivity;
+import com.des.galtest.ui.main.MainActivity;
 import com.des.galtest.ui.main.MainFragmentBindingModule;
 
 import dagger.Module;
@@ -11,6 +13,11 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class ActivityBindingModule {
 
     @ContributesAndroidInjector(modules = {MainFragmentBindingModule.class})
-    abstract HomeActivity bindHomeActivity();
+    abstract MainActivity bindHomeActivity();
+
+    @ContributesAndroidInjector(modules = {
+            RegisterViewModelModule.class
+    })
+    abstract RegisterActivity contributeRegisterActivity();
 
 }

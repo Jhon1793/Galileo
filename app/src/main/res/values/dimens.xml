@@ -4,5 +4,7 @@
 
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">225dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="size_title">26sp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
 </resources>
