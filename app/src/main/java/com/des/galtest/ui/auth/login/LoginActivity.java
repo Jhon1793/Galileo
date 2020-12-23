@@ -1,207 +1,223 @@
 package com.des.galtest.ui.auth.login;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.des.galtest.R;
 import com.des.galtest.ui.auth.register.RegisterActivity;
 import com.des.galtest.ui.main.MainActivity;
-import com.facebook.AccessToken;
+import com.des.galtest.utils.LoadingDialog;
+import com.des.galtest.utils.RxBindingHelper;
+import com.des.galtest.utils.ViewModelFactory;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.Login;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 
-public class LoginActivity extends Activity {
+import org.jetbrains.annotations.Nullable;
 
-    private FirebaseAuth mAuth;
-    private TextInputEditText Emaillog, Passwordlog;
-    private static final String TAG = "Login";
-    private GoogleSignInClient mGoogleSingInClient;
-    private final int RC_SIGN_IN = 1;
-    private Button login_Facebook;
-    private LoginButton login;
+import java.util.Objects;
+
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerAppCompatActivity;
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.observers.DisposableObserver;
+
+public class LoginActivity extends DaggerAppCompatActivity implements View.OnClickListener {
+    private LoginViewModel loginViewModel;
+    private TextInputEditText  Email,Password;
+    private Button btnlog,btngoogle,btnfacebook;
+    private TextView registro;
+    Observable<Boolean> formObservable;
+    private LoginButton loginF;
     private CallbackManager callbackManager;
+    private static final String TAG = "LoginActivity";
+
+    @Inject
+    LoadingDialog loadingDialog;
+
+    @Inject
+    ViewModelFactory providerFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        init();
-        findViewById(R.id.btnGoogle).setOnClickListener(v -> signIn());
-        login_Facebook.setOnClickListener(view -> singInFacebook());
+        intView();
+        formValidation();
+        loginViewModel= new ViewModelProvider(getViewModelStore(), providerFactory).get(LoginViewModel.class);
+        subscribeObservers();
+
     }
 
-    private void singInFacebook() {
-        Log.d(TAG, "LLega");
-        login.performClick();
-        login.setReadPermissions("email", "public_profile");
-         callbackManager = CallbackManager.Factory.create();
-        login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+    private void subscribeObservers() {
+        loginViewModel.observeLogin().observe(this,stateResource -> {
+            if(stateResource != null){
+                switch (stateResource.status){
+                    case LOADING:
+                        loadingDialog.show(getSupportFragmentManager(),"loadingDialog");
+                        break;
+                    case SUCCESS:
+                        loadingDialog.dismiss();
+                        moveToHomeActivity();
+                        break;
+                    case ERROR:
+                        loadingDialog.dismiss();
+                        break;
+                }
+            }
+        });
+    }
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.button) {
+            perform_login();
+        }
+        if (v.getId() == R.id.button2) {
+            moveToLoginActivity();
+        }
+        if(v.getId()==R.id.btnGoogle){
+            loginWithGoogle();
+        }
+        if(v.getId()==R.id.login_button1){
+            loginWithFacebook();
+        }
+
+    }
+
+    private void loginWithFacebook() {
+        loginF.performClick();
+        loginF.setReadPermissions("email", "public_profile");
+        callbackManager = CallbackManager.Factory.create();
+        Log.d("Facebook Autentication", "EN MARCHA"+callbackManager);
+
+        loginF.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.d("Facebook Autentication", "exitoso" + loginResult);
-                handleFacebookToken(loginResult.getAccessToken());
+                Log.d("Facebook Autentication", "Completo");
+                loginViewModel.loginFacebook(loginResult.getAccessToken());
             }
-
             @Override
             public void onCancel() {
                 Log.d("Facebook Autentication", "Cancelado");
             }
-
             @Override
             public void onError(FacebookException error) {
                 Log.d(TAG, "error" + error);
             }
         });
-
     }
 
-    private void handleFacebookToken(AccessToken Token) {
-        AuthCredential credential = FacebookAuthProvider.getCredential(Token.getToken());
-        mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "Ingreso con Facebook:Exitoso");
-                    Toast.makeText(LoginActivity.this, " Exitoso", Toast.LENGTH_SHORT).show();
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    updateUI(user);
-                    Log.d(TAG, "LLegamos" + user);
-                    startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
-
-                } else {
-                    Log.d(TAG, "Ingreso con Facebook:Fallido" + task.getException());
-                    Toast.makeText(LoginActivity.this, " Autentificacion Fallida", Toast.LENGTH_SHORT).show();
-                    updateUI(null);
-
-                }
-            }
-        });
-    }
-
-    private void updateUI(FirebaseUser user) {
-    }
-
-    private void signIn() {
+    private void loginWithGoogle() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        GoogleSignInClient mGoogleSingInClient = GoogleSignIn.getClient(this, gso);
         Intent signInIntent = mGoogleSingInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(signInIntent, 1);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode,resultCode,data);
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == 1) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            loginViewModel.handleSignInResult(task);
+
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completetask) {
-        try {
-            GoogleSignInAccount acc = completetask.getResult(ApiException.class);
-            assert acc != null;
-            FirebaseGoogleAuth(acc);
-        } catch (ApiException e) {
-            Toast.makeText(LoginActivity.this, "Logeo Erroneo", Toast.LENGTH_SHORT).show();
-        }
+
+
+    private void intView() {
+    Email=findViewById(R.id.emaillog);
+    Password=findViewById(R.id.passwordlog);
+    btnlog=findViewById(R.id.button);
+    btngoogle=findViewById(R.id.btnGoogle);
+    registro=findViewById(R.id.button2);
+    btnlog.setOnClickListener(this);
+    registro.setOnClickListener(this);
+    btngoogle.setOnClickListener(this);
+    btnfacebook=findViewById(R.id.login_button1);
+    loginF=findViewById(R.id.login_button);
+    btnfacebook.setOnClickListener(this);
     }
 
-    private void FirebaseGoogleAuth(GoogleSignInAccount acc) {
-        AuthCredential authCredential = GoogleAuthProvider.getCredential(acc.getIdToken(), null);
-        mAuth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+    private void formValidation() {
+        Observable<String> email_observable = RxBindingHelper.getObservableFrom(Email);
+        Observable<String> password_observable = RxBindingHelper.getObservableFrom(Password);
+        formObservable = Observable.combineLatest( email_observable, password_observable,  this::isValidForm);
+        formObservable.subscribe(new DisposableObserver<Boolean>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser currentUser = mAuth.getCurrentUser();
-                    startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
+            public void onNext(@NonNull Boolean aBoolean) {
+                btnlog.setEnabled(aBoolean);
+            }
+            @Override
+            public void onError(@NonNull Throwable e) {
 
-                } else {
-                    Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                }
+            }
+            @Override
+            public void onComplete() {
+
             }
         });
+
+
     }
 
-    private void init() {
-        mAuth = FirebaseAuth.getInstance();
-        Emaillog = findViewById(R.id.emaillog);
-        Passwordlog = findViewById(R.id.passwordlog);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSingInClient = GoogleSignIn.getClient(this, gso);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        login_Facebook = findViewById(R.id.login_button1);
-        login = (LoginButton) findViewById(R.id.login_button);
+
+    private void perform_login() {
+        String email = Objects.requireNonNull(Email.getText()).toString().trim();
+        String password = Objects.requireNonNull(Password.getText()).toString().trim();
+        loginViewModel.login(email, password);
     }
 
-    public void singWithEmailAndPassword(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("Exito", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(LoginActivity.this, " LOGEO EXITOSO", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
-                        } else {
-                            Log.w("Error", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, " " + task.getException(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    public void buttonPress(View view) {
-        String email = Emaillog.getText().toString();
-        String password = Passwordlog.getText().toString();
-        if (!email.isEmpty() && !password.isEmpty()) {
-            singWithEmailAndPassword(email, password);
-        } else {
-            Toast.makeText(this, "Por favor ingrese todos los campos", Toast.LENGTH_LONG).show();
+    private Boolean isValidForm( String email, String password) {
+        boolean isEmail = Patterns.EMAIL_ADDRESS.matcher(email).matches() && !email.isEmpty();
+        if (!isEmail) {
+            Email.setError("Correo electrónico no válido");
         }
+        return isEmail;
     }
-
-    private void signOut() {
-        mAuth.signOut();
+    private void moveToLoginActivity() {
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
-
-    public void registrar(View view) {
-        startActivity(new Intent(this, RegisterActivity.class));
+    private void moveToHomeActivity() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
-
     @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        if(item.getItemId() ==android.R.id.home){
+            onBackPressed();
+        }
+        return true;
     }
+
 }

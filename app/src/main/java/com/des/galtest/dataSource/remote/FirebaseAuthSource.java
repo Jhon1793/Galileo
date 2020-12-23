@@ -1,8 +1,14 @@
 package com.des.galtest.dataSource.remote;
 
 import com.des.galtest.utils.Constants;
+import com.facebook.AccessToken;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -54,6 +60,7 @@ public class FirebaseAuthSource {
                             .addOnFailureListener(emitter::onError)
                             .addOnSuccessListener(aVoid -> emitter.onComplete());
                 }));
+
     }
 
     //login
@@ -62,8 +69,24 @@ public class FirebaseAuthSource {
                 .addOnFailureListener(emitter::onError)
                 .addOnSuccessListener(authResult -> emitter.onComplete()));
     }
+    //loginGoogle
+    public Completable loginGoogle(final GoogleSignInAccount acc){
+        AuthCredential credential= GoogleAuthProvider.getCredential(acc.getIdToken(),null);
+        return Completable.create((emitter -> firebaseAuth.signInWithCredential(credential)
+        .addOnFailureListener(emitter::onError)
+        .addOnSuccessListener(authResult -> emitter.onComplete())));
+    }
+
+    //login Facebook
+    public Completable loginFacebook(final AccessToken token){
+        AuthCredential credential= FacebookAuthProvider.getCredential(token.getToken());
+        return Completable.create((emitter -> firebaseAuth.signInWithCredential(credential)
+                .addOnFailureListener(emitter::onError)
+                .addOnSuccessListener(authResult -> emitter.onComplete())));
+    }
     //logout
     public void logout(){
         firebaseAuth.signOut();
     }
+
 }

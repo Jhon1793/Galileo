@@ -102,9 +102,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/_pass"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="13dp"
             android:background="@drawable/bg_circle_color"
-            android:onClick="buttonPress"
+
             android:text="Iniciar sesión"
             android:textColor="@color/textColorDark"
             android:textStyle="bold" />
@@ -150,11 +150,7 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textColorHint="@color/textColor" />
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
+
 
             <Button
                 android:id="@+id/login_button1"
@@ -170,7 +166,11 @@
                 android:paddingEnd="12dp"
                 android:textColorHint="@color/textColor" />
 
-
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -192,7 +192,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:onClick="registrar"
+
                 android:text="@string/reg_strate"
                 android:textColor="@color/colorSecondary" />
 

@@ -7,6 +7,7 @@ import android.os.Handler;
 
 import com.des.galtest.R;
 import com.des.galtest.ui.auth.login.LoginActivity;
+import com.des.galtest.ui.auth.register.RegisterActivity;
 
 public class SplashActivity extends Activity {
 
