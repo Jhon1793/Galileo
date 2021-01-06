@@ -44,7 +44,7 @@ public class LoginActivity extends DaggerAppCompatActivity implements View.OnCli
     private LoginViewModel loginViewModel;
     private TextInputEditText  Email,Password;
     private Button btnlog,btngoogle,btnfacebook;
-    private TextView registro;
+    private TextView registro,contrasena;
     Observable<Boolean> formObservable;
     private LoginButton loginF;
     private CallbackManager callbackManager;
@@ -87,26 +87,38 @@ public class LoginActivity extends DaggerAppCompatActivity implements View.OnCli
     }
     @Override
     public void onClick(View v) {
+
         if (v.getId() == R.id.button) {
             perform_login();
         }
         if (v.getId() == R.id.button2) {
             moveToLoginActivity();
         }
-        if(v.getId()==R.id.btnGoogle){
+        if(v.getId() == R.id.btnGoogle){
             loginWithGoogle();
         }
-        if(v.getId()==R.id.login_button1){
+        if(v.getId() == R.id.login_button1){
             loginWithFacebook();
         }
+        if(v.getId() == R.id.txt_olv_pass){
 
+            moveToResetPassword();
+        }
+
+    }
+
+    private void moveToResetPassword() {
+
+        Intent intent = new Intent(LoginActivity.this, RPasswordActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void loginWithFacebook() {
         loginF.performClick();
         loginF.setReadPermissions("email", "public_profile");
         callbackManager = CallbackManager.Factory.create();
-        Log.d("Facebook Autentication", "EN MARCHA"+callbackManager);
 
         loginF.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -160,6 +172,8 @@ public class LoginActivity extends DaggerAppCompatActivity implements View.OnCli
     btnfacebook=findViewById(R.id.login_button1);
     loginF=findViewById(R.id.login_button);
     btnfacebook.setOnClickListener(this);
+    contrasena=findViewById(R.id.txt_olv_pass);
+    contrasena.setOnClickListener(this);
     }
 
     private void formValidation() {

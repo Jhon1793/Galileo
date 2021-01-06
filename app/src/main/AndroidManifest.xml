@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity android:name=".ui.main.MainActivity"/>
-        <activity android:name=".ui.auth.login.LogoutActivity" />
+        <activity android:name=".ui.auth.login.RPasswordActivity" />
         <activity
             android:name=".ui.auth.login.LoginActivity"
             android:screenOrientation="portrait"

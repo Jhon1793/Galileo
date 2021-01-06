@@ -24,7 +24,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class LoginViewModel extends ViewModel {
+public class  LoginViewModel extends ViewModel {
     private static final String TAG = "LoginViewModel";
     AuthRepository authRepository;
 

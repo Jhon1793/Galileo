@@ -20,6 +20,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
         ActivityBindingModule.class,
         ApplicationModule.class,
         ViewModelModule.class})
+
 public interface ApplicationComponent extends AndroidInjector<BaseActivity> {
 
     @Component.Builder
@@ -28,4 +29,5 @@ public interface ApplicationComponent extends AndroidInjector<BaseActivity> {
         Builder application(Application application);
         ApplicationComponent build();
     }
+
 }

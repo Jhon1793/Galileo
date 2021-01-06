@@ -104,7 +104,6 @@
             android:layout_below="@id/_pass"
             android:layout_marginTop="13dp"
             android:background="@drawable/bg_circle_color"
-
             android:text="Iniciar sesión"
             android:textColor="@color/textColorDark"
             android:textStyle="bold" />
@@ -114,10 +113,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/button"
-            android:layout_margin="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
             android:gravity="end"
-            android:textColor="@color/textColorLigth"
-            android:text="@string/olvid_mi_contrase_a"/>
+            android:text="@string/olvid_mi_contrase_a"
+            android:textColor="@color/textColorLigth" />
 
         <TextView
             android:id="@+id/message1"
@@ -189,13 +191,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-
                 android:text="@string/reg_strate"
                 android:textColor="@color/colorSecondary" />
 
         </LinearLayout>
 
     </RelativeLayout>
+
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"

@@ -54,6 +54,7 @@ public class FirebaseAuthSource {
                     map.put("image","default");
                     map.put("status","default");
                     map.put("online",true);
+                    firebaseAuth.getCurrentUser().sendEmailVerification();
 
                     firebaseFirestore.collection(Constants.USERS_NODE)
                             .document(getCurrentUid()).set(map)
@@ -65,7 +66,9 @@ public class FirebaseAuthSource {
 
     //login
     public Completable login(final String email, final String password){
+
         return Completable.create(emitter -> firebaseAuth.signInWithEmailAndPassword(email,password)
+
                 .addOnFailureListener(emitter::onError)
                 .addOnSuccessListener(authResult -> emitter.onComplete()));
     }
@@ -83,6 +86,11 @@ public class FirebaseAuthSource {
         return Completable.create((emitter -> firebaseAuth.signInWithCredential(credential)
                 .addOnFailureListener(emitter::onError)
                 .addOnSuccessListener(authResult -> emitter.onComplete())));
+    }
+    public Completable resetPasword(String email){
+        return Completable.create(emitter -> firebaseAuth.sendPasswordResetEmail(email)
+        .addOnFailureListener(emitter::onError)
+        .addOnSuccessListener((authResult -> emitter.onComplete())));
     }
     //logout
     public void logout(){

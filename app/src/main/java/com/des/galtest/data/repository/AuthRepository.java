@@ -36,6 +36,9 @@ public class AuthRepository {
     public Completable loginFacebook(AccessToken token){
         return firebaseAuthSource.loginFacebook(token);
     }
+    public  Completable rPassword(String email){
+        return firebaseAuthSource.resetPasword(email);
+    }
 
     public void signOut(){
         firebaseAuthSource.logout();
