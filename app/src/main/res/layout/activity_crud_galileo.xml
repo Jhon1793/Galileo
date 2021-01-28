@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:paddingHorizontal="12dp"
+    android:orientation="vertical"
+    tools:context=".ui.crud.CrudGalileoActivity"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".2">
+
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CRUD DE SITIOS WEB"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/_sitio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titulo"
+            android:layout_marginTop="20dp"
+            android:labelFor="@id/sitioweb"
+            android:layoutMode="opticalBounds"
+            android:tag="email"
+            app:boxBackgroundColor="@color/background"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="@dimen/margin_15"
+            app:boxCornerRadiusBottomStart="@dimen/margin_15"
+            app:boxCornerRadiusTopEnd="@dimen/margin_15"
+            app:boxCornerRadiusTopStart="@dimen/margin_15"
+            app:boxStrokeColor="@color/color"
+            app:boxStrokeWidth="1dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sitioweb"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints=""
+                android:fontFamily="sans-serif"
+                android:hint="@string/sitioweb"
+                android:textColorHint="@color/textColor"
+                android:inputType="text"
+                android:padding="16dp"
+                android:singleLine="true"
+                android:textColor="@color/textColor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/_supervisor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/_sitio"
+            android:labelFor="@id/supervisor"
+            android:layoutMode="opticalBounds"
+            android:tag="email"
+            app:boxBackgroundColor="@color/background"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="@dimen/margin_15"
+            app:boxCornerRadiusBottomStart="@dimen/margin_15"
+            app:boxCornerRadiusTopEnd="@dimen/margin_15"
+            app:boxCornerRadiusTopStart="@dimen/margin_15"
+            app:boxStrokeColor="@color/color"
+            app:boxStrokeWidth="1dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/supervisor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints=""
+                android:fontFamily="sans-serif"
+                android:hint="@string/supervisor"
+                android:textColorHint="@color/textColor"
+                android:inputType="text"
+                android:padding="16dp"
+                android:singleLine="true"
+                android:textColor="@color/textColor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/message1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/_supervisor"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:text="Opciones" />
+
+
+        <LinearLayout
+            android:id="@+id/social"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/message1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/add"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:elevation="@dimen/cardview_default_elevation"
+                android:hint="ADD"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColorHint="@color/textColor" />
+
+
+            <Button
+                android:id="@+id/update"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:elevation="@dimen/cardview_default_elevation"
+                android:hint="UPDATE"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColorHint="@color/textColor" />
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:elevation="@dimen/cardview_default_elevation"
+                android:hint="DELETE"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textColorHint="@color/textColor" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/listas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/social"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="30dp"
+                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Lista de Sitios " />
+
+            <ListView
+                android:id="@+id/lv_datoSitios"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

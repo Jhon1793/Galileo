@@ -150,14 +150,13 @@ public class LoginActivity extends DaggerAppCompatActivity implements View.OnCli
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode,resultCode,data);
         if (requestCode == 1) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             loginViewModel.handleSignInResult(task);
-
         }
-    }
+        callbackManager.onActivityResult(requestCode,resultCode,data);
 
+    }
 
 
     private void intView() {

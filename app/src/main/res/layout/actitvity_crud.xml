@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/title"
+        android:text="Ingreso de datos"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textSize="26sp"
+        android:textAlignment="center"
+        android:textColor="#f1f1f1"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/nombreSitio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:fontFamily="sans-serif"
+        android:hint="Nombre del Sitio"
+        android:inputType="textEmailAddress"
+        android:padding="16dp"
+        android:singleLine="true"
+        android:textColor="#efefef"
+        android:textColorHint="#efefef" />
+
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/Supervisor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:fontFamily="sans-serif"
+        android:hint="Supervisor"
+        android:inputType="textPersonName"
+        android:padding="16dp"
+        android:singleLine="true"
+        android:textColor="#efefef"
+        android:textColorHint="#efefef" />
+    <LinearLayout
+        android:id="@+id/social"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:layout_centerInParent="true"
+            android:hint="ADD"
+            android:textColorHint="@color/white"
+            android:id="@+id/btnAgregar"/>
+
+        <Button
+            android:id="@+id/btnEliminar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:hint="DELETE"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColorHint="@color/white" />
+
+        <Button
+            android:id="@+id/btnActualizar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:hint="UPDATE"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColorHint="@color/white" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="30dp"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Lista de Personas" />
+
+    <ListView
+        android:id="@+id/lv_datoSitios"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
+</LinearLayout>

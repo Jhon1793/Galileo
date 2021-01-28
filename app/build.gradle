@@ -48,6 +48,7 @@ def firebase_storage = "19.2.1"
 def firebase_ui = "6.2.0"
 def firebase_bom = "26.1.0"
 def butterknife = "10.0.0"
+def firebase_dat="19.6.0"
 
 dependencies {
 
@@ -102,5 +103,11 @@ dependencies {
     implementation "com.firebaseui:firebase-ui-firestore:$firebase_ui"
     implementation "com.google.firebase:firebase-storage:$firebase_storage"
     implementation platform("com.google.firebase:firebase-bom:$firebase_bom")
+    implementation "com.google.firebase:firebase-database:$firebase_dat"
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.google.firebase:firebase-storage:19.2.1'
+
 
 }

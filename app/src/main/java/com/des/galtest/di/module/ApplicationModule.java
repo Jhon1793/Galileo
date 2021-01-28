@@ -11,6 +11,7 @@ import com.des.galtest.data.repository.AuthRepository;
 import com.des.galtest.dataSource.remote.FirebaseAuthSource;
 import com.des.galtest.utils.LoadingDialog;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -35,16 +36,20 @@ public class ApplicationModule {
         return FirebaseFirestore.getInstance();
     }
 
+
     @Singleton
     @Provides
     static FirebaseAuthSource getAuthSource(FirebaseAuth firebaseAuth, FirebaseFirestore firebaseFirestore){
         return new FirebaseAuthSource(firebaseAuth,firebaseFirestore);
     }
+
+
     @Singleton
     @Provides
     static AuthRepository provideAuthRepository(FirebaseAuthSource authSource){
         return  new AuthRepository(authSource);
     }
+
 
     @Singleton
     @Provides

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.crud.FireStore.CrudFireStore">
+    <ImageView
+        android:id="@+id/ivAdd"
+        app:srcCompat="@drawable/ic_add"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvNoteList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:scrollbars="vertical" />
+
+</LinearLayout>

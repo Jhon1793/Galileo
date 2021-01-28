@@ -9,6 +9,9 @@
     <string name="no_tienes_una_cuenta">No tienes una cuenta?</string>
     <string name="reg_strate">Regístrate</string>
     <string name="correo_electr_nico">Correo electrónico *</string>
+    <string name="sitioweb">Nombre de sitio web *</string>
+    <string name="supervisor">Encargado *</string>
+
     <string name="contrase_a">Contraseña *</string>
     <string name="tel_fono">Teléfono</string>
     <string name="confirma_tu_contrase_a">Confirma tu contraseña *</string>
@@ -17,6 +20,8 @@
     <string name="ingresa_aqui">Ingresa aquí</string>
     <string name="subtitulo_registro">Crea una cuenta para acceder y disfrutar de lo que tenemos preparado para ti.</string>
     <string name="titulo_registro">Empecemos!</string>
+    <string name="titulo_crud">Ingreso de Sitios Webs!</string>
+
     <string name="nombre">Nombre *</string>
     <string name="espera_un_momento">Espera un momento...</string>
     <string name="olvid_mi_contrase_a">Olvidé mi contraseña</string>
